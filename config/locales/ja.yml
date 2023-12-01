@@ -1,0 +1,34 @@
+---
+ja:
+  activerecord:
+    models:
+      book: 書籍  #g
+
+    attributes:
+      book:
+        author: 著者  #g
+        memo: メモ  #g
+        picture: 写真  #g
+        title: タイトル  #g
+
+  page_titles:
+    books: 書籍一覧
+    new_book: 書籍の追加
+    editting_book: 書籍の編集
+
+  statements:
+    show_this_book: この書籍を見る
+    new_book: 書籍を追加する
+    edit_this_book: 書籍を編集する
+    back_to_books: 書籍一覧に戻る
+    destroy_this_book: 書籍を削除する
+
+  notice:
+    create: 書籍の追加が完了しました。
+    update: 書籍の更新が完了しました。
+    delete: 書籍の削除が完了しました。
+
+  helpers:
+    submit:
+      create: 登録する
+      update: 更新する
