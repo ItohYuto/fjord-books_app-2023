@@ -11,6 +11,21 @@
   </head>
 
   <body class="<%= params[:action] %>">
+    <header class="navbar-text pull-right ">
+      <% if user_signed_in? %>
+        <% if current_user.username.nil? %>
+          <%=t 'devise.shared.links.sign_in_with_provider', provider: current_user.email %>
+        <% else %>
+          <%=t 'devise.shared.links.sign_in_with_provider', provider: current_user.username %>
+        <% end %>
+        &nbsp;
+        <%= link_to t('views.common.title_edit', name: User.model_name.human), edit_user_registration_path, class: 'navbar-link' %>&nbsp;|&nbsp;
+        <%= button_to t('devise.shared.links.sign_out'), destroy_user_session_path, method: :delete, class: 'navbar-link' %>
+      <% else %>
+        <%= link_to t('devise.shared.links.sign_up'), new_user_registration_path, class: 'navbar-link' %>&nbsp;|&nbsp;
+        <%= link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'navbar-link' %>
+      <% end %>
+    </header>
     <%= yield %>
   </body>
 </html>
