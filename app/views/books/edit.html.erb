@@ -1,10 +1,10 @@
-<h1><%= t('page_titles.editting_book') %></h1>
+<h1><%= t('page_titles.edit', model: Book.model_name.human) %></h1>
 
 <%= render "form", book: @book %>
 
 <br>
 
 <nav class="page-nav">
-  <%= link_to t('statements.show_this_book'), @book %> |
-  <%= link_to t('statements.back_to_books'), books_path %>
+  <%= link_to t('links.show', model: Book.model_name.human), @book %> |
+  <%= link_to t('links.back_to_books', model: Book.model_name.human), books_path %>
 </nav>
