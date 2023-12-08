@@ -1,14 +1,17 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Books</h1>
+<h1><%= t('page_titles.index', model: Book.model_name.human) %></h1>
 
 <div id="books">
   <% @books.each do |book| %>
-    <%= render book %>
-    <p>
-      <%= link_to "Show this book", book %>
-    </p>
+    <div class="index-item">
+      <%= render book %>
+      <p>
+        <%= link_to t('links.show', model: Book.model_name.human), book %>
+      </p>
+    </div>
   <% end %>
 </div>
-
-<%= link_to "New book", new_book_path %>
+<nav class="page-nav">
+  <%= link_to t('links.new', model: Book.model_name.human), new_book_path %>
+</nav>
