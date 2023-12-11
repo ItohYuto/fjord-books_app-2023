@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -5,8 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :profile, length: { maximum: 200 }
-  validates :username, :postal_code, :address, presence: true, on: :update
-  validates :postal_code, format: { with: /\A\d{7}\z/ }, on: :update
+  validates :postal_code, format: { with: /\A\d{7}\z/, allow_blank: true }, on: :update
 
   def update_without_current_password(params, *options)
     if params[:password].blank? && params[:password_confirmation].blank?
@@ -18,5 +19,4 @@ class User < ApplicationRecord
     clean_up_passwords
     result
   end
-
 end
