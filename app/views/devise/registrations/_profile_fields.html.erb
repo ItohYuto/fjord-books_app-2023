@@ -1,4 +1,24 @@
 <div class="field">
+  <%= f.label :image %><br />
+  <%= f.file_field :image %><br />
+  <div id="preview_box">
+    <img id="preview" width="100">
+  </div>
+  <% if @user.image.present? %>
+  <div>
+    <span><b>[現在登録されている画像]</b></span>
+    <p class="text-danger">※削除する場合は画像にチェックしてから更新してください</p>
+    <div class="image-delete-check">
+      <input type="checkbox" class="image-delete-input" id="image_delete" name="image_delete">
+      <label>
+      <%= image_tag @user.image.variant(:thumb) %>
+      </label>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<div class="field">
   <%= f.label :name %><br />
   <%= f.text_field :name %>
 </div>
