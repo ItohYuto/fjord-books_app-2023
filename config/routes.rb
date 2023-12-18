@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   get '/' => redirect('/books')
-  devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    passwords: 'users/passwords'
-  }
+  devise_for :users
   get '/users', to: 'users#index'
   get '/users/:id', to: 'users#show', as: 'user'
   resources :books
