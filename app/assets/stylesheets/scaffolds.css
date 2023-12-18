@@ -232,6 +232,7 @@ Show
   border-radius: var(--global-br);
   font-size: var(--global-fz-md);
   line-height: var(--global-lh);
+  margin: 24px 0;
 }
 
 .show-item p {
@@ -318,4 +319,20 @@ form input[type="submit"] {
 
 form input[type="submit"]:hover {
   background-color: var(--global-primary-c-hover);
+}
+
+.comment-box {
+  margin: 18px 0;
+  padding: 8px;
+  border: solid var(--global-bw) var(--global-bc);
+  border-radius: var(--global-br);
+}
+
+.comment-box p {
+  border-top: none;
+}
+
+.comment_created_at {
+  text-align: right;
+
 }
