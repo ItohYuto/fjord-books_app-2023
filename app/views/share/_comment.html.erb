@@ -4,15 +4,15 @@
     <% commentable.comments.order(:created_at).includes(:user).each do |comment| %>
       <div class="comment-box">
         <p>
-          <%= comment.user.name %>さん
+          <%= comment.user.name.empty? ? comment.user.email : comment.user.name %>さん
         </p>
         <p>
           <%= comment.content %>
         </p>
-        <p class="comment_created_at">
+        <div class="comment_created_at">
           <%= Comment.human_attribute_name(:created_at) %>:
           <%= l comment.created_at, format: :long %>
-        </p>
+        </div>
         <% if comment.user == current_user %>
           <%= button_to t('views.common.destroy', name: Comment.model_name.human.downcase), comment, method: :delete %>
         <% end %>
@@ -40,7 +40,7 @@
 
     <div>
       <%= form.label :content, style: "display: block" %>
-      <%= form.text_field :content %>
+      <%= form.text_field :content, required: true %>
     </div>
     <div>
       <%= form.submit %>

@@ -332,7 +332,6 @@ form input[type="submit"]:hover {
   border-top: none;
 }
 
-.comment_created_at {
+.created_at {
   text-align: right;
-
 }
