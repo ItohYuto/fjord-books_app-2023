@@ -21,4 +21,8 @@ class User < ApplicationRecord
   def image_size
     errors.add(:image, '：1MB以下のファイルをアップロードしてください。') if image.attached? && image.blob.byte_size > 1.megabytes
   end
+
+  def delete_image!
+    update(image: nil)
+  end
 end

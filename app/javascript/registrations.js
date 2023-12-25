@@ -1,7 +1,10 @@
-document.getElementById('user_image').onchange = function() {
-  var fileReader = new FileReader();
-  fileReader.onload = (function() {
-    document.getElementById('preview').src = fileReader.result;
-  });
-  fileReader.readAsDataURL(this.files[0]);
+function previewImage() {
+  const image_element = document.querySelector("#user_image")
+  const fileReader = new FileReader();
+  fileReader.onload = () => {
+    document.querySelector('.js-preview').src = fileReader.result;
+  };
+  fileReader.readAsDataURL(image_element.files[0]);
 }
+
+window.previewImage = previewImage
