@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_02_082433) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_18_065809) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -59,6 +59,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_02_082433) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "mention_relationships", force: :cascade do |t|
+    t.integer "report_id"
+    t.integer "mention_id"
+    t.index ["mention_id"], name: "index_mention_relationships_on_mention_id"
+    t.index ["report_id", "mention_id"], name: "index_mention_relationships_on_report_id_and_mention_id", unique: true
+    t.index ["report_id"], name: "index_mention_relationships_on_report_id"
+  end
+
   create_table "reports", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "title", null: false
@@ -87,5 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_02_082433) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "users"
+  add_foreign_key "mention_relationships", "reports"
+  add_foreign_key "mention_relationships", "reports", column: "mention_id"
   add_foreign_key "reports", "users"
 end

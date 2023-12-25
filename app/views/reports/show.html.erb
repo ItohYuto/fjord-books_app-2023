@@ -2,6 +2,20 @@
 
 <div class="show-item">
   <%= render @report %>
+  <% if !@report.mentioned_reports.empty? %>
+    <div>
+      <strong>この記事は以下の記事で言及されています。</strong>
+      <ul>
+        <% @report.mentioned_reports.each do |report| %>
+        <li>
+          <a>
+            <%= link_to  report.title, report_path(report) %>
+          </a>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 </div>
 
 <%= render 'shared/comments', commentable: @report %>
