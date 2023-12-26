@@ -6,9 +6,6 @@ class CommentsController < ApplicationController
     redirect_to commentable if !comment = current_user.comments.find(params[:id])
     comment.destroy
 
-    respond_to do |format|
-      format.html { redirect_to commentable, notice: t('controllers.common.notice_destroy', name: Comment.model_name.human) }
-      format.json { head :no_content }
-    end
+    redirect_to commentable, notice: t('controllers.common.notice_destroy', name: Comment.model_name.human)
   end
 end

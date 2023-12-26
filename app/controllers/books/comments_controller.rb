@@ -1,20 +1,18 @@
 # frozen_string_literal: true
 
 class Books::CommentsController < ApplicationController
+  include Commentable
+  before_action :set_book, only: %i[create]
+
   def create
-    book = Book.find(params[:book_id])
-    comment = book.comments.build(comment_params)
-    comment.user = current_user
-    respond_to do |format|
-      if comment.save
-        format.html { redirect_to book_url(book), notice: t('controllers.common.notice_create', name: Book.model_name.human) }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
-    end
+    add_comment(@book, comment_params)
   end
 
   private
+
+  def set_book
+    @book = Book.find(params[:book_id])
+  end
 
   def comment_params
     params.require(:comment).permit(:content)

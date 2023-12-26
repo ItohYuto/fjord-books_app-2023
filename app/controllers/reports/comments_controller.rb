@@ -1,20 +1,18 @@
 # frozen_string_literal: true
 
 class Reports::CommentsController < ApplicationController
+  include Commentable
+  before_action :set_report, only: %i[create]
+
   def create
-    report = Report.find(params[:report_id])
-    comment = report.comments.build(comment_params)
-    comment.user = current_user
-    respond_to do |format|
-      if comment.save
-        format.html { redirect_to report_url(report), notice: t('controllers.common.notice_create', name: Report.model_name.human) }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
-    end
+    add_comment(@report, comment_params)
   end
 
   private
+
+  def set_report
+    @report = Report.find(params[:report_id])
+  end
 
   def comment_params
     params.require(:comment).permit(:content)
