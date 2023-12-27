@@ -3,12 +3,12 @@
 class ReportsController < ApplicationController
   before_action :set_report, only: %i[show edit update destroy]
 
-  # GET /reports or /reports.json
+  # GET /reports
   def index
     @reports = Report.order(:id).page(params[:page])
   end
 
-  # GET /reports/1 or /reports/1.json
+  # GET /reports/1
   def show; end
 
   # GET /reports/new
@@ -21,7 +21,7 @@ class ReportsController < ApplicationController
     redirect_to @report if @report.user != current_user
   end
 
-  # POST /reports or /reports.json
+  # POST /reports
   def create
     @report = current_user.reports.build(report_params)
     if @report.save
@@ -31,7 +31,7 @@ class ReportsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /reports/1 or /reports/1.json
+  # PATCH/PUT /reports/1
   def update
     if @report.update(report_params)
       redirect_to report_url(@report), notice: t('controllers.common.notice_update', name: Report.model_name.human)
@@ -40,7 +40,7 @@ class ReportsController < ApplicationController
     end
   end
 
-  # DELETE /reports/1 or /reports/1.json
+  # DELETE /reports/1
   def destroy
     redirect_to @report unless current_user.reports.exists?(params[:id])
     @report.destroy
