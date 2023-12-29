@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    redirect_to comment.commentable if !comment = current_user.comments.find(params[:id])
+    comment = current_user.comments.find(params[:id])
     comment.destroy
 
     redirect_to comment.commentable, notice: t('controllers.common.notice_destroy', name: Comment.model_name.human)
