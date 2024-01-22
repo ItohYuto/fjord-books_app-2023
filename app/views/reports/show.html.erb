@@ -6,11 +6,9 @@
     <div>
       <strong>この記事は以下の記事で言及されています。</strong>
       <ul>
-        <% @report.mentioned_reports.each do |report| %>
+        <% @report.mentioned_reports.order(:id).each do |report| %>
         <li>
-          <a>
-            <%= link_to  report.title, report_path(report) %>
-          </a>
+          <%= link_to report.title, report_path(report) %>
         </li>
         <% end %>
       </ul>

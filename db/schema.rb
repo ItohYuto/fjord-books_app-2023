@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_18_065809) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_04_004222) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -59,12 +59,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_18_065809) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "mention_relationships", force: :cascade do |t|
-    t.integer "report_id"
-    t.integer "mention_id"
-    t.index ["mention_id"], name: "index_mention_relationships_on_mention_id"
-    t.index ["report_id", "mention_id"], name: "index_mention_relationships_on_report_id_and_mention_id", unique: true
-    t.index ["report_id"], name: "index_mention_relationships_on_report_id"
+  create_table "report_mentions", force: :cascade do |t|
+    t.integer "mention_to_id", null: false
+    t.integer "mentioned_by_id", null: false
+    t.index ["mention_to_id", "mentioned_by_id"], name: "index_report_mentions_on_mention_to_id_and_mentioned_by_id", unique: true
+    t.index ["mention_to_id"], name: "index_report_mentions_on_mention_to_id"
+    t.index ["mentioned_by_id"], name: "index_report_mentions_on_mentioned_by_id"
   end
 
   create_table "reports", force: :cascade do |t|
@@ -95,7 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_18_065809) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "users"
-  add_foreign_key "mention_relationships", "reports"
-  add_foreign_key "mention_relationships", "reports", column: "mention_id"
+  add_foreign_key "report_mentions", "reports", column: "mention_to_id"
+  add_foreign_key "report_mentions", "reports", column: "mentioned_by_id"
   add_foreign_key "reports", "users"
 end

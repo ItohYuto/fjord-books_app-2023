@@ -7,10 +7,13 @@ class Report < ApplicationRecord
   validates :title, presence: true
   validates :content, presence: true
 
-  has_many :mention_relationships, dependent: :destroy
-  has_many :mentioning_reports, through: :mention_relationships, source: :mention
-  has_many :reverse_of_relationships, class_name: 'MentionRelationship', foreign_key: 'mention_id', inverse_of: 'mention', dependent: :destroy
-  has_many :mentioned_reports, through: :reverse_of_relationships, source: :report
+  has_many :forward_mentions, class_name: 'ReportMention', foreign_key: 'mention_to_id', inverse_of: 'mention_to', dependent: :destroy
+  has_many :mentioning_reports, through: :forward_mentions, source: :mentioned_by
+  has_many :backward_mentions, class_name: 'ReportMention', foreign_key: 'mentioned_by_id', inverse_of: 'mentioned_by', dependent: :destroy
+  has_many :mentioned_reports, through: :backward_mentions, source: :mention_to
+
+  after_create :create_mentions
+  after_update :update_mentions
 
   def editable?(target_user)
     user == target_user
@@ -20,14 +23,29 @@ class Report < ApplicationRecord
     created_at.to_date
   end
 
-  def mentions(target_reports)
-    target_reports.map { |report| mention_relationships.find_or_create_by(mention_id: report.id) if self != report }.compact
+  private
+
+  def find_mention_reports
+    report_ids = content.scan(%r{http://localhost:3000/reports/[0-9]*}).map { |url| url.delete_prefix('http://localhost:3000/reports/') }
+    Report.where(id: report_ids).where.not(id:)
   end
 
-  def mention_cancels(target_reports)
-    target_reports.map do |report|
-      mention_relationship = mention_relationships.find_by(mention_id: report.id)
-      mention_relationship&.destroy
-    end
+  def add_mentions(target_reports)
+    self.mentioning_reports += target_reports
+  end
+
+  def delete_mentions(target_reports)
+    self.mentioning_reports -= target_reports
+  end
+
+  def create_mentions
+    mention_reports = find_mention_reports
+    add_mentions(mention_reports)
+  end
+
+  def update_mentions
+    mention_reports = find_mention_reports
+    delete_mentions(mentioning_reports - mention_reports)
+    add_mentions(mention_reports - mentioning_reports)
   end
 end
