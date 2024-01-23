@@ -2,6 +2,18 @@
 
 <div class="show-item">
   <%= render @report %>
+  <% if @report.mentioned_reports.present? %>
+    <div>
+      <strong>この記事は以下の記事で言及されています。</strong>
+      <ul>
+        <% @report.mentioned_reports.order(:id).each do |report| %>
+        <li>
+          <%= link_to report.title, report_path(report) %>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 </div>
 
 <%= render 'shared/comments', commentable: @report %>
