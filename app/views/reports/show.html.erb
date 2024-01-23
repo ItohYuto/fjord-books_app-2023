@@ -2,7 +2,7 @@
 
 <div class="show-item">
   <%= render @report %>
-  <% if !@report.mentioned_reports.empty? %>
+  <% if @report.mentioned_reports.present? %>
     <div>
       <strong>この記事は以下の記事で言及されています。</strong>
       <ul>

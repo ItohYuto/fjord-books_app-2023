@@ -26,7 +26,7 @@ class Report < ApplicationRecord
   private
 
   def find_mention_reports
-    report_ids = content.scan(%r{http://localhost:3000/reports/[0-9]*}).map { |url| url.delete_prefix('http://localhost:3000/reports/') }
+    report_ids = content.scan(%r{http://localhost:3000/reports/([0-9]+)}).flatten
     Report.where(id: report_ids).where.not(id:)
   end
 
